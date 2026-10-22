@@ -1,0 +1,14 @@
+{
+  "name": "ascii-horizon",
+  "version": "1.0.0",
+  "description": "A black hole drops onto a page of text and bends it, live, in ASCII.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx --yes serve -l 4173 .",
+    "start": "npx --yes serve -l 4173 ."
+  },
+  "keywords": ["ascii", "webgl2", "black-hole", "ray-tracing", "gravitational-lensing", "generative-art", "shader"],
+  "author": "Siddharth Meena",
+  "license": "MIT"
+}

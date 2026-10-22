@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#12110e">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2312110e'/%3E%3Ccircle cx='32' cy='32' r='11' fill='none' stroke='%23f81a86' stroke-width='5'/%3E%3C/svg%3E">
+  <title>ascii / horizon</title>
+  <meta name="description" content="A black hole drops onto a page of text and bends it, live, in ASCII.">
+  <meta property="og:title" content="ascii / horizon">
+  <meta property="og:description" content="A black hole, made of letters, eating the page it sits on.">
+  <meta name="twitter:card" content="summary">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wdth,wght@75..112.5,300..500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/styles.css">
+  <script type="module" src="src/main.js"></script>
+</head>
+<body>
+  <main class="stage" id="stage" aria-label="A page of text with a black hole on it, drawn live in letters. Move to steer the hole, click to feed it, drag to tilt its disk, scroll to change its mass.">
+    <canvas id="cv"></canvas>
+    <noscript><p class="fallback">This demo renders live with JavaScript and WebGL 2.</p></noscript>
+  </main>
+
+  <header class="top chrome">
+    <div class="mark">ascii<b>/</b>horizon</div>
+    <div class="tools">
+      <button class="ib" id="replay" aria-label="Replay from a calm page" aria-keyshortcuts="A"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 1 1-6.445 7.348.75.75 0 1 1 1.487-.194A5.001 5.001 0 1 0 4.43 4.5h1.32a.75.75 0 0 1 0 1.5h-3A.75.75 0 0 1 2 5.250v-3a.75.75 0 0 1 1.5 0v1.06A6.48 6.48 0 0 1 8 1.5" clip-rule="evenodd"/></svg></button>
+      <button class="ib" id="play" aria-label="Pause" aria-keyshortcuts="Space"><svg viewBox="0 0 16 16" aria-hidden="true" class="i-pause"><path fill="currentColor" d="M5 1.5A1.5 1.5 0 0 1 6.5 3v10A1.5 1.5 0 0 1 5 14.5H3A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5zm8 0A1.5 1.5 0 0 1 14.5 3v10a1.5 1.5 0 0 1-1.5 1.5h-2A1.5 1.5 0 0 1 9.5 13V3A1.5 1.5 0 0 1 11 1.5z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true" class="i-play" hidden><path fill="currentColor" d="M14.642 6.285c1.294.777 1.294 2.653 0 3.43l-9.113 5.468c-1.333.8-3.028-.16-3.029-1.715V2.532C2.5.978 4.196.018 5.530.818z"/></svg></button>
+      <button class="ib opt" id="restore" aria-label="Restore the page" aria-keyshortcuts="R"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M2 3.75A.75.75 0 0 1 2.75 3h10.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 3.75m0 4A.75.75 0 0 1 2.75 7h10.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 7.75m0 4a.75.75 0 0 1 .75-.75h6.5a.75.75 0 0 1 0 1.5h-6.5a.75.75 0 0 1-.75-.75" clip-rule="evenodd"/></svg></button>
+      <span class="sep opt" aria-hidden="true"></span>
+      <button class="ib" id="hide" aria-label="Hide interface for recording" aria-keyshortcuts="H"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M3.03 1.97a.75.75 0 0 0-1.06 1.06l.83.83A8.2 8.2 0 0 0 .5 6.876l-.26.585a1.330 1.330 0 0 0 0 1.079l.26.585a8.210 8.210 0 0 0 11.434 3.870l1.036 1.035a.75.75 0 1 0 1.06-1.060zm7.788 9.908-1.294-1.293a3 3 0 0 1-4.109-4.109L3.866 4.927A6.7 6.7 0 0 0 1.870 7.486L1.641 8l.23.515a6.710 6.710 0 0 0 8.947 3.363M6.550 7.611A1.502 1.502 0 0 0 8.389 9.450zm1.658-2.604 2.784 2.784a3 3 0 0 0-2.784-2.784m5.920 3.508a6.700 6.700 0 0 1-.915 1.496l1.065 1.066A8.200 8.200 0 0 0 15.500 9.125l.26-.585a1.330 1.330 0 0 0 0-1.080l-.26-.584A8.210 8.210 0 0 0 5.572 2.370L6.810 3.610a6.710 6.710 0 0 1 7.320 3.877l.228.514z" clip-rule="evenodd"/></svg></button>
+      <button class="ib" id="gear" aria-label="Settings" aria-expanded="false" aria-controls="panel" aria-keyshortcuts="S"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M7.5 5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m1.405.75a3.001 3.001 0 0 1-5.810 0H1.747a.75.75 0 0 1 0-1.5h1.348a3.001 3.001 0 0 1 5.810 0h5.345a.75.75 0 0 1 0 1.5zm-7.158 4.5h5.345a3.001 3.001 0 0 1 5.811 0h1.347a.75.75 0 1 1 0 1.5h-1.347a3.001 3.001 0 0 1-5.810 0H1.746a.75.75 0 0 1 0-1.5m8.25-.75a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" clip-rule="evenodd"/></svg></button>
+    </div>
+  </header>
+
+  <footer class="foot chrome">
+    <p class="spec" id="spec" aria-hidden="true"></p>
+    <p class="sr" id="specSr" aria-live="polite"></p>
+    <div class="meta">
+      <span class="hint" id="hint"></span>
+      <span class="stats" id="stats" hidden></span>
+      <span class="mass" id="mass">M 1.00</span>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <aside class="panel" id="panel" aria-label="Settings">
+    <section class="grp">
+      <h2>Hole</h2>
+      <div class="rngrow"><div class="row"><label for="s-mass">Mass</label><output id="o-mass" for="s-mass"></output></div><input class="rng" id="s-mass" type="range" min="0.4" max="1.8" step="0.01" data-k="mass"></div>
+      <div class="rngrow"><div class="row"><label for="s-bright">Disk brightness</label><output id="o-bright" for="s-bright"></output></div><input class="rng" id="s-bright" type="range" min="0" max="2" step="0.05" data-k="bright"></div>
+      <div class="rngrow"><div class="row"><label for="s-spin">Spin</label><output id="o-spin" for="s-spin"></output></div><input class="rng" id="s-spin" type="range" min="0" max="2" step="0.05" data-k="spin"></div>
+      <div class="rngrow"><div class="row"><label for="s-tilt">Tilt</label><output id="o-tilt" for="s-tilt"></output></div><input class="rng" id="s-tilt" type="range" min="0" max="88" step="1" data-k="tilt"></div>
+      <div class="row"><span class="lb" id="l-eat">Eat letters</span><button class="sw" role="switch" data-k="eat" aria-labelledby="l-eat"><i></i></button></div>
+      <div class="row"><span class="lb" id="l-mouse">Mouse steers</span><button class="sw" role="switch" data-k="mouse" aria-labelledby="l-mouse" aria-keyshortcuts="M"><i></i></button></div>
+      <div class="row"><span class="lb" id="l-drift">Drift when idle</span><button class="sw" role="switch" data-k="drift" aria-labelledby="l-drift"><i></i></button></div>
+    </section>
+
+    <section class="grp">
+      <h2>Look</h2>
+      <div class="segrow"><span class="lb" id="l-theme">Theme</span><div class="seg" role="radiogroup" aria-labelledby="l-theme" data-k="theme"><span class="ind"></span><button role="radio" data-v="paper">Paper</button><button role="radio" data-v="stage">Stage</button><button role="radio" data-v="pink">Pink</button></div></div>
+      <div class="rngrow"><div class="row"><label for="s-cell">Cell size</label><output id="o-cell" for="s-cell"></output></div><input class="rng" id="s-cell" type="range" min="6" max="18" step="1" data-k="cell"></div>
+      <div class="segrow"><span class="lb" id="l-ramp">Disk glyphs</span><div class="seg" role="radiogroup" aria-labelledby="l-ramp" data-k="ramp"><span class="ind"></span><button role="radio" data-v="shape">Shape</button><button role="radio" data-v="classic">Ramp</button><button role="radio" data-v="binary" aria-label="Binary">01</button></div></div>
+      <div class="row"><span class="lb" id="l-accent">Pink on hottest cells</span><button class="sw" role="switch" data-k="accent" aria-labelledby="l-accent"><i></i></button></div>
+    </section>
+
+    <section class="grp">
+      <h2>Page</h2>
+      <div class="field"><label for="s-text">Your own text, or leave empty for the essay</label><textarea id="s-text" spellcheck="false" maxlength="6000" placeholder="Paste anything. A tweet, a poem, your resume."></textarea></div>
+      <button class="quiet tight" id="useEssay">Use the essay</button>
+    </section>
+
+    <section class="grp">
+      <h2>Frame</h2>
+      <div class="segrow"><span class="lb" id="l-aspect">Aspect</span><div class="seg" role="radiogroup" aria-labelledby="l-aspect" data-k="aspect"><span class="ind"></span><button role="radio" data-v="fill">Fill</button><button role="radio" data-v="16:9">16:9</button><button role="radio" data-v="1:1">1:1</button><button role="radio" data-v="4:5">4:5</button></div></div>
+      <div class="row"><span class="lb" id="l-stats">Frame rate</span><button class="sw" role="switch" data-k="stats" aria-labelledby="l-stats"><i></i></button></div>
+      <div class="row"><span class="lb" id="l-motion">Animate under reduced motion</span><button class="sw" role="switch" data-k="ignoreReduced" aria-labelledby="l-motion"><i></i></button></div>
+    </section>
+
+    <section class="grp">
+      <h2>Keys</h2>
+      <dl class="keys">
+        <dt>Space</dt><dd>Pause or play</dd>
+        <dt>A</dt><dd>Replay from a calm page</dd>
+        <dt>R</dt><dd>Restore the page</dd>
+        <dt>1, 2, 3</dt><dd>Edge on, tilted, face on</dd>
+        <dt>Up, Down</dt><dd>More or less mass</dd>
+        <dt>F</dt><dd>Feed the hole</dd>
+        <dt>M</dt><dd>Mouse steers on or off</dd>
+        <dt>H</dt><dd>Hide the interface</dd>
+        <dt>S</dt><dd>Settings</dd>
+        <dt>T</dt><dd>Next theme</dd>
+      </dl>
+      <button class="quiet" id="reset">Reset all settings</button>
+    </section>
+  </aside>
+</body>
+</html>
