@@ -16,7 +16,7 @@ export const MAXP = 900, TRAIL = 4;
 /* ---------- settings ---------- */
 export const STORAGE_KEY = 'ascii-horizon-v1';
 export const DEFAULTS = {
-  mass: 1, bright: 1, spin: 1, tilt: 9, eat: true, drift: true, mouse: true,
+  mass: 0.45, bright: 1, spin: 1, tilt: 9, eat: true, drift: true, mouse: true,
   theme: 'stage', cell: innerWidth < 640 ? 8 : 10, ramp: 'shape', accent: true,
   aspect: 'fill', stats: false, ignoreReduced: false, text: ''
 };

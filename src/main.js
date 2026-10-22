@@ -1,5 +1,5 @@
 import { S } from './settings.js';
-import { G, H, U, st, ptr, perf, parts } from './state.js';
+import { G, H, U, st, perf, parts } from './state.js';
 import { initGL } from './gl/context.js';
 import { fontsReady } from './gl/glyphs.js';
 import { initRenderer, render } from './gl/renderer.js';
@@ -29,9 +29,8 @@ function boot() {
     placeAll();
   });
 
-  // hooks for scripted capture, e.g. __demo.seek(4); __demo.move(0.2, 0)
+  // hooks for scripted capture, e.g. __demo.seek(4); __demo.feed()
   window.__demo = {
-    move(x, y) { ptr.tx = x; ptr.ty = y; ptr.real = true; ptr.lastMove = st.real; },
     feed, replay, restore, view, setMass,
     seek(t) { st.intro = t; },
     pause(v = true) { setPaused(v); },

@@ -1,7 +1,7 @@
 import { THEMES } from '../config.js';
 import { S, reduced } from '../settings.js';
 import { G, H, U, st, ptr, perf, col } from '../state.js';
-import { clamp, ss, lerp, hex, DEG } from '../util.js';
+import { clamp, ss, hex, DEG } from '../util.js';
 import { el } from '../ui/dom.js';
 import { syncSpec } from '../ui/hud.js';
 import { introAt } from './hole.js';
@@ -10,24 +10,18 @@ import { eat, stepParts } from './eat.js';
 let fpsE = 60, statT = 0;
 
 export function tick(dt) {
-  st.real += dt;
   if (perf.ss === 6) { perf.slow = dt > 0.022 ? perf.slow + dt : Math.max(0, perf.slow - dt * 0.5); if (perf.slow > 1.5) perf.ss = 1; }
   const rm = reduced();
   const sdt = st.paused ? 0 : dt;
   st.intro += sdt; st.sim += sdt;
   const I = introAt(st.intro);
 
-  // pointer: real when recent, otherwise a slow phantom so a hands-off take still moves
-  const idle = st.real - ptr.lastMove > 2.5;
-  const live = S.mouse && ptr.real;
-  let tx = ptr.tx, ty = ptr.ty;
-  if (!live || idle) {
-    if (S.drift && !rm) {
-      const t = st.sim, w = ss(3.2, 6.5, st.intro);
-      tx = w * (0.3 * Math.sin(t * 0.17) + 0.07 * Math.sin(t * 0.43 + 1));
-      ty = w * (0.1 * Math.sin(t * 0.23 + 0.6) + 0.04 * Math.sin(t * 0.51));
-      if (live) { tx = lerp(ptr.tx, tx, ss(2.5, 5, st.real - ptr.lastMove)); ty = lerp(ptr.ty, ty, ss(2.5, 5, st.real - ptr.lastMove)); }
-    } else if (!live) { tx = H.tx; ty = H.ty; }
+  // the hole wanders on a slow looping path, or holds still with drift off
+  let tx = H.tx, ty = H.ty;
+  if (S.drift && !rm) {
+    const t = st.sim, w = ss(3.2, 6.5, st.intro);
+    tx = w * (0.3 * Math.sin(t * 0.17) + 0.07 * Math.sin(t * 0.43 + 1));
+    ty = w * (0.1 * Math.sin(t * 0.23 + 0.6) + 0.04 * Math.sin(t * 0.51));
   }
   const lim = [G.gw / 2 / G.unit - 0.04, G.gh / 2 / G.unit - 0.04];
   H.tx = clamp(tx, -lim[0], lim[0]); H.ty = clamp(ty, -lim[1], lim[1]);

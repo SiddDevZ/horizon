@@ -18,7 +18,7 @@ and the letters that get too close are peeled off the page and pulled in.
 
 <br>
 
-<img src="docs/media/demo.gif" alt="Steering the black hole across the page, feeding it, tilting the disk and switching themes" width="720">
+<img src="docs/media/demo.gif" alt="The black hole forming on a page of text, being fed, tilted and switched between themes" width="720">
 
 </div>
 
@@ -47,7 +47,7 @@ and the letters that get too close are peeled off the page and pulled in.
 - **Glyph shape matching.** The disk is not drawn with a brightness ramp. Each cell is sampled at six points and matched against the actual shape of all 95 printable ASCII characters, so edges get `/`, `(` and `_` where they belong.
 - **It eats.** Letters near the hole are pulled loose, light up pink, spiral in along the disk plane and fall through the horizon. A counter keeps score.
 - **Your own text.** Paste a tweet, a poem or your resume and the hole sits on that instead.
-- **Made for recording.** Hide all UI with one key, lock the frame to 16:9, 1:1 or 4:5, and let it drift on its own when you take your hands off.
+- **Made for recording.** Hide all UI with one key, lock the frame to 16:9, 1:1 or 4:5, and let it drift across the page on its own.
 - **Zero dependencies, no build step.** Plain HTML, CSS and ES modules. Open it with any static server.
 - **Accessible.** Full keyboard control, labelled controls, live region updates for screen readers, and it respects `prefers-reduced-motion`.
 
@@ -74,8 +74,7 @@ That's the whole setup. There is no bundler, no framework and no `node_modules`.
 
 | Action | What it does |
 | --- | --- |
-| **Move** | Steer the hole |
-| **Click** | Feed it. The mass kicks, a ripple runs through the page, and a burst of letters gets eaten |
+| **Click** | Feed the hole. The mass kicks, a ripple runs through the page, and a burst of letters gets eaten |
 | **Drag** | Tilt and roll the disk |
 | **Scroll** | Change the mass |
 
@@ -83,8 +82,8 @@ That's the whole setup. There is no bundler, no framework and no `node_modules`.
 
 | Action | What it does |
 | --- | --- |
-| **Drag** | Steer the hole |
-| **Tap** | Feed it |
+| **Drag** | Tilt and roll the disk |
+| **Tap** | Feed the hole |
 | **Pinch** | Change the mass |
 
 ### Keyboard
@@ -97,13 +96,13 @@ That's the whole setup. There is no bundler, no framework and no `node_modules`.
 | <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> | Edge on, tilted, face on |
 | <kbd>↑</kbd> <kbd>↓</kbd> | More or less mass |
 | <kbd>F</kbd> | Feed the hole |
-| <kbd>M</kbd> | Mouse steers on or off |
+| <kbd>M</kbd> | Mouse on or off |
 | <kbd>H</kbd> | Hide the interface, for recording |
 | <kbd>S</kbd> | Open settings |
 | <kbd>T</kbd> | Next theme |
 | <kbd>Esc</kbd> | Close settings, or show the interface again |
 
-When nobody touches it for a couple of seconds the hole drifts on its own, so a hands-off screen recording still moves.
+The hole drifts slowly across the page on its own, so a hands-off screen recording still moves.
 
 ## Settings
 
@@ -113,13 +112,13 @@ Open the panel with the slider icon or <kbd>S</kbd>. Everything is saved to `loc
 
 | Group | Setting | Notes |
 | --- | --- | --- |
-| **Hole** | Mass | Size of the event horizon, `0.40` to `1.80` |
+| **Hole** | Mass | Size of the event horizon, `0.20` to `1.80`, default `0.45` |
 | | Disk brightness | `0%` turns the disk off and leaves only the lens |
 | | Spin | How fast the disk turns. Higher spin also pulls the inner edge closer |
 | | Tilt | `0°` is edge on, `88°` is nearly face on |
 | | Eat letters | Turn the eating off to just watch the lens |
-| | Mouse steers | Off means the hole only drifts |
-| | Drift when idle | The slow phantom motion when you stop moving |
+| | Mouse controls | Off ignores clicks, drags and scrolls |
+| | Drift when idle | The slow wander across the page. Off keeps the hole in the center |
 | **Look** | Theme | Paper, Stage (dark) and Pink |
 | | Cell size | `6` to `18` px. Smaller cells mean more letters and more detail |
 | | Disk glyphs | **Shape** matches glyph shapes, **Ramp** uses ` .:-=+*#%@`, **01** is binary |
@@ -201,7 +200,7 @@ It then spirals in along the plane of the disk, faster as it gets closer, lifts 
 
 ### 6. Feeling physical
 
-The hole follows the pointer on a slightly underdamped spring. Feeding it kicks the mass on a damped spring of its own and sends a ripple through the page. Colors ease between themes instead of snapping, and the intro is a single timeline: a calm page, a pink point, then the mass arrives and the disk lights up from the inside out.
+The hole wanders along a slow, looping path on a slightly underdamped spring. Feeding it kicks the mass on a damped spring of its own and sends a ripple through the page. Colors ease between themes instead of snapping, and the intro is a single timeline: a calm page, a pink point, then the mass arrives and the disk lights up from the inside out.
 
 ## Project structure
 
@@ -248,7 +247,6 @@ For scripted recordings, the page exposes a small API on `window.__demo`:
 ```js
 __demo.replay();          // restart the intro from a calm page
 __demo.seek(4);           // jump the intro timeline to 4 seconds
-__demo.move(0.2, -0.05);  // steer the hole, in screen units from the center
 __demo.feed();            // feed it
 __demo.view(2);           // 0 edge on, 1 tilted, 2 face on
 __demo.setMass(1.4);

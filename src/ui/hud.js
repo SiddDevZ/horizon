@@ -1,7 +1,7 @@
 import { H } from '../state.js';
 import { el, isTouch } from './dom.js';
 
-export const HINT = isTouch ? 'Drag to steer. Tap to feed. Pinch for mass.' : 'Move to steer. Click to feed. Drag to tilt. Scroll for mass.';
+export const HINT = isTouch ? 'Tap to feed. Drag to tilt. Pinch for mass.' : 'Click to feed. Drag to tilt. Scroll for mass.';
 export const HINT_OFF = 'Pointer off. M to turn it on. Up, Down for mass. F to feed.';
 
 let hintGone = false;

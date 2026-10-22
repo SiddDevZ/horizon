@@ -17,7 +17,7 @@
   <script type="module" src="src/main.js"></script>
 </head>
 <body>
-  <main class="stage" id="stage" aria-label="A page of text with a black hole on it, drawn live in letters. Move to steer the hole, click to feed it, drag to tilt its disk, scroll to change its mass.">
+  <main class="stage" id="stage" aria-label="A page of text with a black hole on it, drawn live in letters. Click to feed the hole, drag to tilt its disk, scroll to change its mass.">
     <canvas id="cv"></canvas>
     <noscript><p class="fallback">This demo renders live with JavaScript and WebGL 2.</p></noscript>
   </main>
@@ -40,7 +40,7 @@
     <div class="meta">
       <span class="hint" id="hint"></span>
       <span class="stats" id="stats" hidden></span>
-      <span class="mass" id="mass">M 1.00</span>
+      <span class="mass" id="mass">M 0.45</span>
     </div>
   </footer>
 
@@ -49,12 +49,12 @@
   <aside class="panel" id="panel" aria-label="Settings">
     <section class="grp">
       <h2>Hole</h2>
-      <div class="rngrow"><div class="row"><label for="s-mass">Mass</label><output id="o-mass" for="s-mass"></output></div><input class="rng" id="s-mass" type="range" min="0.4" max="1.8" step="0.01" data-k="mass"></div>
+      <div class="rngrow"><div class="row"><label for="s-mass">Mass</label><output id="o-mass" for="s-mass"></output></div><input class="rng" id="s-mass" type="range" min="0.2" max="1.8" step="0.01" data-k="mass"></div>
       <div class="rngrow"><div class="row"><label for="s-bright">Disk brightness</label><output id="o-bright" for="s-bright"></output></div><input class="rng" id="s-bright" type="range" min="0" max="2" step="0.05" data-k="bright"></div>
       <div class="rngrow"><div class="row"><label for="s-spin">Spin</label><output id="o-spin" for="s-spin"></output></div><input class="rng" id="s-spin" type="range" min="0" max="2" step="0.05" data-k="spin"></div>
       <div class="rngrow"><div class="row"><label for="s-tilt">Tilt</label><output id="o-tilt" for="s-tilt"></output></div><input class="rng" id="s-tilt" type="range" min="0" max="88" step="1" data-k="tilt"></div>
       <div class="row"><span class="lb" id="l-eat">Eat letters</span><button class="sw" role="switch" data-k="eat" aria-labelledby="l-eat"><i></i></button></div>
-      <div class="row"><span class="lb" id="l-mouse">Mouse steers</span><button class="sw" role="switch" data-k="mouse" aria-labelledby="l-mouse" aria-keyshortcuts="M"><i></i></button></div>
+      <div class="row"><span class="lb" id="l-mouse">Mouse controls</span><button class="sw" role="switch" data-k="mouse" aria-labelledby="l-mouse" aria-keyshortcuts="M"><i></i></button></div>
       <div class="row"><span class="lb" id="l-drift">Drift when idle</span><button class="sw" role="switch" data-k="drift" aria-labelledby="l-drift"><i></i></button></div>
     </section>
 
@@ -88,7 +88,7 @@
         <dt>1, 2, 3</dt><dd>Edge on, tilted, face on</dd>
         <dt>Up, Down</dt><dd>More or less mass</dd>
         <dt>F</dt><dd>Feed the hole</dd>
-        <dt>M</dt><dd>Mouse steers on or off</dd>
+        <dt>M</dt><dd>Mouse on or off</dd>
         <dt>H</dt><dd>Hide the interface</dd>
         <dt>S</dt><dd>Settings</dd>
         <dt>T</dt><dd>Next theme</dd>

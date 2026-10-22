@@ -11,7 +11,7 @@ import { syncRange, placeInd } from './controls.js';
 import { resetPointers } from './pointer.js';
 
 export function feed() {
-  if (U.rs < 0.2) return;
+  if (U.rs < 0.2 * S.mass) return;
   H.kickV += 4.2;
   H.pulseT = 0; H.pulseA = 3.2;
   if (S.eat && !reduced()) setTimeout(() => eat(0, true), 60);
@@ -24,7 +24,7 @@ export function restore(msg = true) {
 
 export function replay() {
   st.intro = 0; H.kick = H.kickV = 0; H.pulseA = 0;
-  H.x = H.y = H.vx = H.vy = 0; ptr.real = false;
+  H.x = H.y = H.vx = H.vy = 0;
   restore(false);
 }
 
@@ -34,7 +34,7 @@ export function view(i) {
   toast(`${v.name}.`);
 }
 
-export function setMass(m) { S.mass = clamp(m, 0.4, 1.8); syncRange($('#s-mass')); save(); }
+export function setMass(m) { S.mass = clamp(m, 0.2, 1.8); syncRange($('#s-mass')); save(); }
 
 export function applyTheme(instant) {
   const t = THEMES[S.theme] || THEMES.stage;
@@ -45,14 +45,14 @@ export function applyTheme(instant) {
 
 export function applyMouse(announce) {
   if (!S.mouse) {
-    ptr.real = false; ptr.down = false; ptr.dragging = false; resetPointers();
+    ptr.down = false; ptr.dragging = false; resetPointers();
     stage.classList.remove('dragging');
   }
   stage.classList.toggle('nomouse', !S.mouse);
   el.hint.textContent = S.mouse ? HINT : HINT_OFF;
   if (announce) {
     if (!S.mouse) showHint(); else el.hint.classList.remove('gone');
-    toast(S.mouse ? 'Mouse steers the hole.' : 'Mouse ignored. The hole drifts on its own.');
+    toast(S.mouse ? 'Mouse on.' : 'Mouse ignored.');
   }
 }
 

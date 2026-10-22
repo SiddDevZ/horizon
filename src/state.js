@@ -19,10 +19,10 @@ export const H = {
 // per frame values handed to the shaders
 export const U = { rs: 0, disk: 0, rout: ROUT, flash: 1, dot: 0 };
 
-// clocks: intro timeline, sim time, wall time, smoothed hole speed
-export const st = { paused: false, intro: 0, sim: 0, real: 0, speed: 0 };
+// clocks: intro timeline, sim time, smoothed hole speed
+export const st = { paused: false, intro: 0, sim: 0, speed: 0 };
 
-export const ptr = { tx: 0, ty: 0, real: false, lastMove: -1e9, down: false, dragging: false, moved: false, sx: 0, sy: 0, lx: 0, ly: 0, t0: 0 };
+export const ptr = { down: false, dragging: false, sx: 0, sy: 0, lx: 0, ly: 0, t0: 0 };
 
 // supersampling drops from 6 rays to 1 per cell if frames run slow
 export const perf = { ss: 6, slow: 0 };
